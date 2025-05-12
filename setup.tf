@@ -10,6 +10,7 @@ resource "aws_vpc" "vpc" {
   tags = {
     Name = "tp2-vpc"
   }
+}
 
 #Crear ipgateway
 resource "aws_internet_gateway" "ipgw" {
