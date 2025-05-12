@@ -31,7 +31,7 @@ data "aws_route_table" "tabla_ruteo" {
 
 #Crear tabla de ruteo
 resource "aws_default_route_table" "internet_route" {
-  default_route_table_id = data.aws_route_table.main_route_table.id
+  default_route_table_id = data.aws_route_table.tabla_ruteo.id
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.igw.id
@@ -48,7 +48,7 @@ data "aws_availability_zones" "azs_vpc" {
 
 #Crear subred
 resource "aws_subnet" "subred" {
-  availability_zone = element(data.aws_availability_zones.azs.names, 0)
+  availability_zone = element(data.aws_availability_zones.azs_vpc.names, 0)
   vpc_id            = aws_vpc.vpc.id
   cidr_block        = "10.0.1.0/24"
 }
@@ -81,5 +81,5 @@ resource "aws_security_group" "gru-seg" {
 }
 
 output "Ip-publica-server-web" {
-  value = aws_instance.webserver.public_ip
+  value = aws_instance.apache_server.public_ip
 }
