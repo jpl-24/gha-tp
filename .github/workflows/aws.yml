@@ -1,4 +1,4 @@
-name: "Terraform"
+name: "Terraform2"
 
 on:
   workflow_dispatch:
