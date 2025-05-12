@@ -34,7 +34,7 @@ resource "aws_default_route_table" "internet_route" {
   default_route_table_id = data.aws_route_table.tabla_ruteo.id
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.igw.id
+    gateway_id = aws_internet_gateway.ipgw.id
   }
   tags = {
     Name = "Tp2-tabla-ruteo"
