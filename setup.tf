@@ -24,7 +24,7 @@ data "aws_route_table" "tabla_ruteo" {
     values = ["true"]
   }
   filter {
-    name   = "tp2-vpc"
+    name   = "vpc-id"
     values = [aws_vpc.vpc.id]
   }
 }
