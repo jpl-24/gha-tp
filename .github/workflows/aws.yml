@@ -1,10 +1,13 @@
 name: "Terraform2"
-
 on:
   workflow_dispatch:
     inputs:
       # Working directory input from user.
-   
+      resource:
+        description: 'Working directory containing Terraform files'
+        required: false
+        default: '.'
+        type: string
       # Terraform action you want to perform
       action:
         description: 'Terraform Action to Perform'
@@ -12,7 +15,6 @@ on:
         options:
         - Terraform_apply
         - Terraform_destroy
-
 jobs:
   terraform_apply:
     name: "Terraform_apply"
@@ -21,13 +23,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
-
       - name: Terraform Init
         id: init
         run: terraform init
+        working-directory: ${{ github.event.inputs.resource }}
         env:
             AWS_ACCESS_KEY_ID: ${{ secrets.AWS_NAME }}
             AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY }}
@@ -36,10 +37,11 @@ jobs:
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
-
+        working-directory: ${{ github.event.inputs.resource }}
       - name: Terraform Apply
         id: apply
         run: terraform apply -auto-approve 
+        working-directory: ${{ github.event.inputs.resource }}
         env:
             AWS_ACCESS_KEY_ID: ${{ secrets.AWS_NAME }}
             AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY }}
@@ -52,13 +54,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
-
       - name: Terraform Init
         id: init
         run: terraform init
+        working-directory: ${{ github.event.inputs.resource }}
         env:
             AWS_ACCESS_KEY_ID: ${{ secrets.AWS_NAME }}
             AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY }}
